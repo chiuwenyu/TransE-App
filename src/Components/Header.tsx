@@ -19,7 +19,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { NavLink } from "react-router-dom";
 
 const Links = [
-  { titlePage: "Client", path: "/" },
+  { titlePage: "Home", path: "/" },
   { titlePage: "Steam", path: "/Steam" },
   { titlePage: "Single Phase", path: "/SinglePhase" },
 ];
