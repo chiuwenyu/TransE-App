@@ -4,7 +4,7 @@ import "./App.css";
 import { Box, Grid } from "@mui/material";
 import { Header } from "./Components/Header";
 import { Outlet, Route, Routes } from "react-router-dom";
-import { ClientPage } from "./Components/ClientPage";
+import { Home } from "./Components/Home";
 import { SinglePhase } from "./Components/SinglePhase";
 import { Steam } from "./Components/Steam";
 
@@ -28,18 +28,18 @@ function App() {
           pl: 0,
           pt: 10,
           fontSize: "10px",
-          // minHeight: "100vh",
+          minHeight: "100vh",
         }}
       >
         <Grid item>
-          <Box>
+          <Grid>
             <Routes>
-              <Route path="/" element={<ClientPage />} />
+              <Route path="/" element={<Home />} />
               <Route path="/steam" element={<Steam />} />
               <Route path="/singlephase" element={<SinglePhase />} />
             </Routes>
             <Outlet />
-          </Box>
+          </Grid>
         </Grid>
       </Grid>
     </>
