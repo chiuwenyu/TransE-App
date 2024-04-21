@@ -36,15 +36,17 @@ export const Header = () => {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+        TransEnergy
       </Typography>
       <Divider />
       <List>
         {Links.map((item) => (
           <ListItem key={item.titlePage} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={item.titlePage} />
-            </ListItemButton>
+            <NavLink to={item.path} key={item.titlePage}>
+              <ListItemButton sx={{ textAlign: "center" }}>
+                <ListItemText primary={item.titlePage} />
+              </ListItemButton>
+            </NavLink>
           </ListItem>
         ))}
       </List>
@@ -61,7 +63,7 @@ export const Header = () => {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
+            sx={{ mr: 2, display: { lg: "none" } }}
           >
             <MenuIcon />
           </IconButton>
@@ -70,7 +72,7 @@ export const Header = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            Trans Energy
+            TransEnergy
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {Links.map((item) => (
