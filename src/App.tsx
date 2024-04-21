@@ -2,6 +2,7 @@ import { useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
 import DrawerAppBar from "./Components/DrawerAppBar";
 import "./App.css";
+import { Box, Toolbar } from "@mui/material";
 
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
@@ -15,6 +16,10 @@ function App() {
   return (
     <div>
       <DrawerAppBar />
+      <Box component="main" sx={{ p: 3 }}>
+        <Toolbar />
+        <h1>Hello World</h1>
+      </Box>
     </div>
   );
 }
