@@ -20,26 +20,14 @@ function App() {
   return (
     <>
       <Header />
-      <Grid
-        container
-        justifyContent="center"
-        sx={{
-          bgcolor: "background.default",
-          pl: 0,
-          pt: 10,
-          fontSize: "10px",
-          minHeight: "100vh",
-        }}
-      >
+      <Grid>
         <Grid item>
-          <Grid>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/steam" element={<Steam />} />
-              <Route path="/singlephase" element={<SinglePhase />} />
-            </Routes>
-            <Outlet />
-          </Grid>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/steam" element={<Steam />} />
+            <Route path="/singlephase" element={<SinglePhase />} />
+          </Routes>
+          <Outlet />
         </Grid>
       </Grid>
     </>

@@ -74,10 +74,8 @@ export const Header = () => {
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {Links.map((item) => (
-              <NavLink to={item.path}>
-                <Button key={item.titlePage} sx={{ color: "#fff" }}>
-                  {item.titlePage}
-                </Button>
+              <NavLink to={item.path} key={item.titlePage}>
+                <Button sx={{ color: "#fff" }}>{item.titlePage}</Button>
               </NavLink>
             ))}
           </Box>
