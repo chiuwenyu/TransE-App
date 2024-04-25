@@ -1,22 +1,19 @@
-import { Grid, Paper } from "@mui/material";
+import { Box, Grid, Paper } from "@mui/material";
+import splashImg from "../assets/splash-01.jpg";
 
 export const Home = () => {
   return (
-    <Grid
-      container
-      sx={{
-        bgcolor: "background.default",
-        pt: 10,
-        fontSize: "10px",
-        minHeight: "100vh",
-      }}
+    <Box
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      height="100vh"
     >
-      <Grid item xs={6} style={{ textAlign: "center" }}>
-        <h1>Hello World</h1>
-      </Grid>
-      <Grid item xs={6} style={{ textAlign: "center" }}>
-        <h1>Home Page</h1>
-      </Grid>
-    </Grid>
+      <img src={splashImg} alt="description" />
+      <div>
+        <h2>TransE-App v.2024</h2>
+      </div>
+    </Box>
   );
 };
