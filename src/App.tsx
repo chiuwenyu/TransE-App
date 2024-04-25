@@ -23,7 +23,7 @@ function App() {
       <Grid>
         <Grid item>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Steam />} />
             <Route path="/steam" element={<Steam />} />
             <Route path="/singlephase" element={<SinglePhase />} />
           </Routes>
