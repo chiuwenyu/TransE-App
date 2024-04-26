@@ -12,29 +12,55 @@ import {
   Select,
   MenuItem,
   FormControl,
-  Menu,
+  Link,
+  Paper,
 } from "@mui/material";
 import { useState } from "react";
 
 export const Steam = () => {
   const [temp, setTemp] = useState("0");
+  const [error, setError] = useState(false);
   const [pres, setPres] = useState("0");
   const [steamState, setSteamState] = useState(0);
+
+  // 處理溫度輸入值
+  const handleTempChange = (e: any) => {
+    const newValue = e.target.value;
+    setTemp(newValue);
+    // 驗證輸入值是否為正的浮點數
+    const isPositiveFloat = /^([0-9]*[.])?[0-9]+$/;
+    if (!isPositiveFloat.test(newValue)) {
+      setError(true);
+    } else {
+      setError(false);
+    }
+  };
+
+  // 處理壓力輸入值
+  const handlePresChange = (e: any) => {
+    const newValue = e.target.value;
+    setPres(newValue);
+    // 驗證輸入值是否為正的浮點數
+    const isPositiveFloat = /^([0-9]*[.])?[0-9]+$/;
+    if (!isPositiveFloat.test(newValue)) {
+      setError(true);
+    } else {
+      setError(false);
+    }
+  };
 
   return (
     <Grid
       container
       // alignItems="center"
+      gap={6}
       sx={{
         bgcolor: "background.default",
-        ml: 4,
-        mt: 1,
-        pt: 10,
-        fontSize: "10px",
         minHeight: "100vh",
       }}
     >
-      <Grid item xs={6}>
+      {/* 輸入條件 */}
+      <Grid item xs={4} sx={{ ml: 4, mt: 1, pt: 10 }}>
         <Card sx={{ maxWidth: 550 }}>
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
@@ -46,6 +72,15 @@ export const Steam = () => {
               Formulation 1997 for the Thermodynamic Properties of Water and
               Steam".
             </Typography>
+            <Box sx={{ mt: 2, fontSize: 12 }}>
+              <Link
+                href="http://www.iapws.org/relguide/IF97-Rev.html"
+                target="_blank"
+                rel="noopener"
+              >
+                IAPWS-IF97?
+              </Link>
+            </Box>
             <Box marginTop={1}>
               <Divider variant="fullWidth" />
             </Box>
@@ -66,8 +101,25 @@ export const Steam = () => {
                   value={steamState}
                   label="State"
                   onChange={(e) => {
-                    console.log(e.target.value);
                     setSteamState(e.target.value as number);
+                    switch (e.target.value) {
+                      case 10:
+                        setTemp("0");
+                        setPres("0");
+                        break;
+                      case 20:
+                        setTemp("0");
+                        break;
+                      case 30:
+                        setPres("0");
+                        break;
+                      case 40:
+                        setTemp("0");
+                        setPres("0");
+                        break;
+                      default:
+                        break;
+                    }
                   }}
                   sx={{ width: "45ch" }}
                 >
@@ -84,24 +136,38 @@ export const Steam = () => {
                   label="Temperature (°C)"
                   variant="outlined"
                   value={temp}
-                  onChange={(e) => setTemp(e.target.value)}
+                  error={error}
+                  helperText={error ? "Please innput correct number" : ""}
+                  onChange={handleTempChange}
                 />
               )}
               {steamState === 10 || steamState === 0 ? undefined : (
                 <TextField
                   id="outlined-basic"
-                  label="Pressure (kPa)"
+                  label="Pressure (MPa)"
                   variant="outlined"
                   value={pres}
-                  onChange={(e) => setPres(e.target.value)}
+                  error={error}
+                  helperText={error ? "Please innput correct number" : ""}
+                  onChange={handlePresChange}
                 />
               )}
             </Box>
           </CardContent>
           <CardActions sx={{ ml: 1, mt: 4, mb: 1 }}>
             <Button size="medium">Calculate</Button>
-            <Button size="medium">IAPWS-IF97</Button>
           </CardActions>
+        </Card>
+      </Grid>
+
+      {/* 輸出結果 */}
+      <Grid item xs={6} sx={{ ml: 4, mt: 1, pt: 10 }}>
+        <Card sx={{ maxWidth: 600 }}>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              Calculated Property
+            </Typography>
+          </CardContent>
         </Card>
       </Grid>
     </Grid>
