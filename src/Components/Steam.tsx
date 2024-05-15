@@ -1,3 +1,5 @@
+import { invoke } from "@tauri-apps/api/tauri";
+
 import {
   Grid,
   Card,
@@ -17,7 +19,53 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
+type Result = {
+  d: number; // 2. Density, kg/m³
+  v: number; // 3. Specific Volume, m³/kg
+  h: number; // 4. Specific enthalpy, kJ/kg
+  s: number; // 5. Specific entropy, kJ/(kg·K)
+  u: number; // 7. Specific internal energy, kJ/kg
+  x: number; // 15. steam quality, 0 <= x <= 1
+  dv: number; // 24. Dynamic viscosity, Pa·s
+  kv: number; // 25. Kinematic viscosity, m2/s
+  k: number; // 26. Thermal conductivity, W/(m·K)
+  td: number; // 27. Thermal diffusivity, m2/s
+  st: number; // 29. Surface tension, N/m
+  lat: number; // cal. property, Latent Heat
+};
+
 export const Steam = () => {
+  async function rust_satTemp() {
+    let res: Result = {
+      d: -999.0,
+      v: -999.0,
+      h: -999.0,
+      s: -999.0,
+      u: -999.0,
+      x: -999.0,
+      dv: -999.0,
+      kv: -999.0,
+      k: -999.0,
+      td: -999.0,
+      st: -999.0,
+      lat: -999.0,
+    };
+
+    await invoke<Result>("invoke_seuif", {
+      pressure: parseFloat(pres),
+      temperature: parseFloat(temp),
+      mode: steamState,
+    })
+      .then((result) => {
+        res = result as Result;
+        // console.log(res.v);
+        // console.log(res.h);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }
+
   const [temp, setTemp] = useState("0");
   const [error, setError] = useState(false);
   const [pres, setPres] = useState("0");
@@ -124,13 +172,17 @@ export const Steam = () => {
                   sx={{ width: "45ch" }}
                 >
                   <MenuItem value={0}>-- Select a State --</MenuItem>
-                  <MenuItem value={10}>Saturated Steam -- T</MenuItem>
-                  <MenuItem value={20}>Saturated Steam -- P</MenuItem>
-                  <MenuItem value={30}>Superheated steam</MenuItem>
-                  <MenuItem value={40}>Water</MenuItem>
+                  <MenuItem value={10}>Saturated Steam by T</MenuItem>
+                  <MenuItem value={20}>Saturated Steam by P</MenuItem>
+                  <MenuItem value={30}>Saturated Water by T</MenuItem>
+                  <MenuItem value={40}>Saturated Water by P</MenuItem>
+                  <MenuItem value={50}>Superheated Steam by T, P</MenuItem>
+                  <MenuItem value={60}>Subcool Water by T, P</MenuItem>
                 </Select>
               </FormControl>
-              {steamState === 20 || steamState === 0 ? undefined : (
+              {steamState === 20 ||
+              steamState === 40 ||
+              steamState === 0 ? undefined : (
                 <TextField
                   id="outlined-basic"
                   label="Temperature (°C)"
@@ -141,7 +193,9 @@ export const Steam = () => {
                   onChange={handleTempChange}
                 />
               )}
-              {steamState === 10 || steamState === 0 ? undefined : (
+              {steamState === 10 ||
+              steamState === 30 ||
+              steamState === 0 ? undefined : (
                 <TextField
                   id="outlined-basic"
                   label="Pressure (MPa)"
@@ -155,7 +209,9 @@ export const Steam = () => {
             </Box>
           </CardContent>
           <CardActions sx={{ ml: 1, mt: 4, mb: 1 }}>
-            <Button size="medium">Calculate</Button>
+            <Button size="medium" onClick={rust_satTemp}>
+              Calculate
+            </Button>
           </CardActions>
         </Card>
       </Grid>
