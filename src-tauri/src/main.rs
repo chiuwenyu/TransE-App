@@ -1,7 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-use serde::Serialize; // Add this line
-pub mod use_seuif97;
+
+mod use_seuif97;
 use crate::use_seuif97::steam_props_cal::*;
 
 #[tauri::command]

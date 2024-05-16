@@ -4,6 +4,8 @@ pub mod steam_props_cal {
     use serde::ser::{Serialize, SerializeStruct, Serializer};
     use seuif97::*;
     pub struct SteamProps {
+        pub p: f64,   // 0. Pressure, MPa
+        pub t: f64,   // 1. Temperature, ℃
         pub d: f64,   // 2. Density, kg/m³
         pub v: f64,   // 3. Specific Volume, m³/kg
         pub h: f64,   // 4. Specific enthalpy, kJ/kg
@@ -23,7 +25,9 @@ pub mod steam_props_cal {
         where
             S: Serializer,
         {
-            let mut state = serializer.serialize_struct("SteamProps", 12)?;
+            let mut state = serializer.serialize_struct("SteamProps", 14)?;
+            state.serialize_field("p", &self.p)?;
+            state.serialize_field("t", &self.t)?;
             state.serialize_field("d", &self.d)?;
             state.serialize_field("v", &self.v)?;
             state.serialize_field("h", &self.h)?;
@@ -39,9 +43,12 @@ pub mod steam_props_cal {
             state.end()
         }
     }
+
     impl SteamProps {
         pub fn new() -> SteamProps {
             SteamProps {
+                p: -999.0,
+                t: -999.0,
                 d: -999.0,
                 v: -999.0,
                 h: -999.0,
@@ -76,7 +83,7 @@ pub mod steam_props_cal {
 
     fn sat_steam_by_temp(t: f64) -> SteamProps {
         let mut sp = SteamProps::new();
-
+        sp.p = tx(t, 1.0, 0); // 計算在給定溫度下的飽和壓力
         sp.d = tx(t, 1.0, 2); // 計算在給定溫度下的密度
         sp.v = tx(t, 1.0, 3); // 計算在給定溫度下的比容
         sp.h = tx(t, 1.0, 4); // 計算在給定溫度下的比焓
@@ -95,7 +102,7 @@ pub mod steam_props_cal {
 
     fn sat_steam_by_pres(p: f64) -> SteamProps {
         let mut sp = SteamProps::new();
-
+        sp.t = px(p, 1.0, 0); // 計算在給定壓力下的飽和溫度
         sp.d = px(p, 1.0, 2); // 計算在給定壓力下的密度
         sp.v = px(p, 1.0, 3); // 計算在給定壓力下的比容
         sp.h = px(p, 1.0, 4); // 計算在給定壓力下的比焓

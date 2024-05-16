@@ -20,6 +20,8 @@ import {
 import { useState } from "react";
 
 type Result = {
+  p: number; // 0. Pressure, MPa
+  t: number; // 1. Temperature, °C
   d: number; // 2. Density, kg/m³
   v: number; // 3. Specific Volume, m³/kg
   h: number; // 4. Specific enthalpy, kJ/kg
@@ -34,23 +36,31 @@ type Result = {
   lat: number; // cal. property, Latent Heat
 };
 
-export const Steam = () => {
-  async function rust_satTemp() {
-    let res: Result = {
-      d: -999.0,
-      v: -999.0,
-      h: -999.0,
-      s: -999.0,
-      u: -999.0,
-      x: -999.0,
-      dv: -999.0,
-      kv: -999.0,
-      k: -999.0,
-      td: -999.0,
-      st: -999.0,
-      lat: -999.0,
-    };
+let res: Result = {
+  p: -999.0,
+  t: -999.0,
+  d: -999.0,
+  v: -999.0,
+  h: -999.0,
+  s: -999.0,
+  u: -999.0,
+  x: -999.0,
+  dv: -999.0,
+  kv: -999.0,
+  k: -999.0,
+  td: -999.0,
+  st: -999.0,
+  lat: -999.0,
+};
 
+export const Steam = () => {
+  const [temp, setTemp] = useState("0");
+  const [error, setError] = useState(false);
+  const [pres, setPres] = useState("0");
+  const [steamState, setSteamState] = useState(0);
+  const [calState, setCalState] = useState(false);
+
+  async function rust_satTemp() {
     await invoke<Result>("invoke_seuif", {
       pressure: parseFloat(pres),
       temperature: parseFloat(temp),
@@ -58,18 +68,14 @@ export const Steam = () => {
     })
       .then((result) => {
         res = result as Result;
-        // console.log(res.v);
+        console.log(res.d);
         // console.log(res.h);
+        setCalState(true);
       })
       .catch((e) => {
         console.error(e);
       });
   }
-
-  const [temp, setTemp] = useState("0");
-  const [error, setError] = useState(false);
-  const [pres, setPres] = useState("0");
-  const [steamState, setSteamState] = useState(0);
 
   // 處理溫度輸入值
   const handleTempChange = (e: any) => {
@@ -81,6 +87,7 @@ export const Steam = () => {
       setError(true);
     } else {
       setError(false);
+      setCalState(false);
     }
   };
 
@@ -94,6 +101,7 @@ export const Steam = () => {
       setError(true);
     } else {
       setError(false);
+      setCalState(false);
     }
   };
 
@@ -218,11 +226,50 @@ export const Steam = () => {
 
       {/* 輸出結果 */}
       <Grid item xs={6} sx={{ ml: 4, mt: 1, pt: 10 }}>
-        <Card sx={{ maxWidth: 600 }}>
+        <Card sx={{ maxWidth: 500 }}>
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               Calculated Property
             </Typography>
+            {calState && (
+              <Typography
+                variant="body1"
+                color="text.secondary"
+                style={{ lineHeight: 2 }}
+              >
+                {steamState === 10
+                  ? `在 ${temp} °C 下的飽和蒸汽性質:`
+                  : undefined}
+                <br />
+                {steamState === 10
+                  ? `飽和壓力 p = ${res.p.toFixed(4)} MPa`
+                  : undefined}
+                <br />
+                密度 d = {res.d.toFixed(4)} kg/m³
+                <br />
+                比容 v = {res.v.toFixed(6)} m³/kg
+                <br />
+                比焓 h = {res.h.toFixed(4)} kJ/kg
+                <br />
+                比熵 s = {res.s.toFixed(4)} kJ/(kg·K)
+                <br />
+                比內能 u = {res.u.toFixed(4)} kJ/kg
+                <br />
+                蒸汽品質 x = {res.x.toFixed(2)}
+                <br />
+                靜黏度 dv = {(res.dv * 1000.0).toFixed(4)} cP
+                <br />
+                動黏度 kv = {res.kv.toFixed(8)} m²/s
+                <br />
+                熱傳導率 k = {res.k.toFixed(8)} W/(m·K)
+                <br />
+                熱擴散係數 td = {res.td.toFixed(8)} m²/s
+                <br />
+                表面張力 st = {res.st.toFixed(4)} N/m
+                <br />
+                潛熱 lat = {res.lat.toFixed(4)} kJ/kg
+              </Typography>
+            )}
           </CardContent>
         </Card>
       </Grid>
