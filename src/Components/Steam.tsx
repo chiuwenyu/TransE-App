@@ -15,7 +15,6 @@ import {
   MenuItem,
   FormControl,
   Link,
-  Paper,
 } from "@mui/material";
 import { useState } from "react";
 
@@ -206,7 +205,7 @@ export const Steam = () => {
                   variant="outlined"
                   value={temp}
                   error={error}
-                  helperText={error ? "Please innput correct number" : ""}
+                  helperText={error ? "Please input correct number" : ""}
                   onChange={handleTempChange}
                 />
               )}
@@ -219,7 +218,7 @@ export const Steam = () => {
                   variant="outlined"
                   value={pres}
                   error={error}
-                  helperText={error ? "Please innput correct number" : ""}
+                  helperText={error ? "Please input correct number" : ""}
                   onChange={handlePresChange}
                 />
               )}
