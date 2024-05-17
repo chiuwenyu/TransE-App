@@ -240,9 +240,15 @@ export const Steam = () => {
                 {steamState === 10
                   ? `在 ${temp} °C 下的飽和蒸汽性質:`
                   : undefined}
+                {steamState === 20
+                  ? `在 ${pres} MPa 下的飽和蒸汽性質:`
+                  : undefined}
                 <br />
                 {steamState === 10
                   ? `飽和壓力 p = ${res.p.toFixed(4)} MPa`
+                  : undefined}
+                {steamState === 20
+                  ? `飽和溫度 t = ${res.t.toFixed(4)} °C`
                   : undefined}
                 <br />
                 密度 d = {res.d.toFixed(4)} kg/m³

@@ -102,7 +102,7 @@ pub mod steam_props_cal {
 
     fn sat_steam_by_pres(p: f64) -> SteamProps {
         let mut sp = SteamProps::new();
-        sp.t = px(p, 1.0, 0); // 計算在給定壓力下的飽和溫度
+        sp.t = px(p, 1.0, 1); // 計算在給定壓力下的飽和溫度
         sp.d = px(p, 1.0, 2); // 計算在給定壓力下的密度
         sp.v = px(p, 1.0, 3); // 計算在給定壓力下的比容
         sp.h = px(p, 1.0, 4); // 計算在給定壓力下的比焓
