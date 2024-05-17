@@ -184,6 +184,7 @@ export const Steam = () => {
                       default:
                         break;
                     }
+                    setCalState(false);
                   }}
                   sx={{ width: "45ch" }}
                 >
@@ -239,7 +240,7 @@ export const Steam = () => {
             <Typography gutterBottom variant="h5" component="div">
               Calculated Property
             </Typography>
-            {calState && (
+            {calState && steamState != 0 && (
               <Typography
                 variant="body1"
                 color="text.secondary"
