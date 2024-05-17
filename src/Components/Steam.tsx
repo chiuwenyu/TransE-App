@@ -53,6 +53,14 @@ let res: Result = {
   lat: -999.0,
 };
 
+const Conv = (value: number, deci: number) => {
+  if (value <= -998.9) {
+    return "(N/A)";
+  } else {
+    return value.toFixed(deci);
+  }
+};
+
 export const Steam = () => {
   const [temp, setTemp] = useState("0");
   const [error, setError] = useState(false);
@@ -226,7 +234,7 @@ export const Steam = () => {
 
       {/* 輸出結果 */}
       <Grid item xs={6} sx={{ ml: 4, mt: 1, pt: 10 }}>
-        <Card sx={{ maxWidth: 500 }}>
+        <Card sx={{ maxWidth: 600 }}>
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               Calculated Property
@@ -238,35 +246,35 @@ export const Steam = () => {
                 style={{ lineHeight: 2 }}
               >
                 {steamState === 10
-                  ? `在 ${temp} °C 下的 Saturated Steam 性質:`
+                  ? `在溫度 ${temp} °C 下的 Saturated Steam 性質:`
                   : undefined}
                 {steamState === 20
-                  ? `在 ${pres} MPa 下的 Saturated Steam 性質:`
+                  ? `在壓力 ${pres} MPa 下的 Saturated Steam 性質:`
                   : undefined}
                 {steamState === 30
-                  ? `在 ${temp} °C 下的 Saturated Water 性質:`
+                  ? `在溫度 ${temp} °C 下的 Saturated Water 性質:`
                   : undefined}
                 {steamState === 40
-                  ? `在 ${pres} MPa 下的 Saturated Water 性質:`
+                  ? `在壓力 ${pres} MPa 下的 Saturated Water 性質:`
                   : undefined}
                 {steamState === 50
-                  ? `在 ${temp} °C, ${pres} MPa 下的 Superheated Steam 性質:`
+                  ? `在溫度 ${temp} °C, 壓力 ${pres} MPa 下的 Superheated Steam 性質:`
                   : undefined}
                 {steamState === 60
-                  ? `在 ${temp} °C, ${pres} MPa 下的 Subcool water 性質:`
+                  ? `在溫度 ${temp} °C, 壓力 ${pres} MPa 下的 Subcool water 性質:`
                   : undefined}
                 <br />
                 {steamState === 10
-                  ? `飽和壓力 p = ${res.p.toFixed(4)} MPa`
+                  ? `飽和壓力 p = ${Conv(res.p, 4)} MPa`
                   : undefined}
                 {steamState === 20
-                  ? `飽和溫度 t = ${res.t.toFixed(4)} °C`
+                  ? `飽和溫度 t = ${Conv(res.t, 4)} °C`
                   : undefined}
                 {steamState === 30
-                  ? `飽和壓力 p = ${res.p.toFixed(4)} MPa`
+                  ? `飽和壓力 p = ${Conv(res.p, 4)} MPa`
                   : undefined}
                 {steamState === 40
-                  ? `飽和溫度 t = ${res.t.toFixed(4)} °C`
+                  ? `飽和溫度 t = ${Conv(res.t, 4)} °C`
                   : undefined}
                 {steamState === 10 ||
                 steamState === 20 ||
@@ -274,29 +282,29 @@ export const Steam = () => {
                 steamState === 40 ? (
                   <br />
                 ) : undefined}
-                密度 d = {res.d.toFixed(4)} kg/m³
+                密度 d = {Conv(res.d, 4)} kg/m³
                 <br />
-                比容 v = {res.v.toFixed(6)} m³/kg
+                比容 v = {Conv(res.v, 6)} m³/kg
                 <br />
-                比焓 h = {res.h.toFixed(4)} kJ/kg
+                比焓 h = {Conv(res.h, 4)} kJ/kg
                 <br />
-                比熵 s = {res.s.toFixed(4)} kJ/(kg·K)
+                比熵 s = {Conv(res.s, 4)} kJ/(kg·K)
                 <br />
-                比內能 u = {res.u.toFixed(4)} kJ/kg
+                比內能 u = {Conv(res.u, 4)} kJ/kg
                 <br />
-                蒸汽品質 x = {res.x.toFixed(2)}
+                蒸汽品質 x = {Conv(res.x, 2)}
                 <br />
-                靜黏度 dv = {(res.dv * 1000.0).toFixed(4)} cP
+                靜黏度 dv = {Conv(res.dv * 1000.0, 4)} cP
                 <br />
-                動黏度 kv = {res.kv.toFixed(8)} m²/s
+                動黏度 kv = {Conv(res.kv, 8)} m²/s
                 <br />
-                熱傳導率 k = {res.k.toFixed(8)} W/(m·K)
+                熱傳導率 k = {Conv(res.k, 8)} W/(m·K)
                 <br />
-                熱擴散係數 td = {res.td.toFixed(8)} m²/s
+                熱擴散係數 td = {Conv(res.td, 8)} m²/s
                 <br />
-                表面張力 st = {res.st.toFixed(4)} N/m
+                表面張力 st = {Conv(res.st, 4)} N/m
                 <br />
-                潛熱 lat = {res.lat.toFixed(4)} kJ/kg
+                潛熱 lat = {Conv(res.lat, 4)} kJ/kg
               </Typography>
             )}
           </CardContent>
