@@ -238,10 +238,22 @@ export const Steam = () => {
                 style={{ lineHeight: 2 }}
               >
                 {steamState === 10
-                  ? `在 ${temp} °C 下的飽和蒸汽性質:`
+                  ? `在 ${temp} °C 下的 Saturated Steam 性質:`
                   : undefined}
                 {steamState === 20
-                  ? `在 ${pres} MPa 下的飽和蒸汽性質:`
+                  ? `在 ${pres} MPa 下的 Saturated Steam 性質:`
+                  : undefined}
+                {steamState === 30
+                  ? `在 ${temp} °C 下的 Saturated Water 性質:`
+                  : undefined}
+                {steamState === 40
+                  ? `在 ${pres} MPa 下的 Saturated Water 性質:`
+                  : undefined}
+                {steamState === 50
+                  ? `在 ${temp} °C, ${pres} MPa 下的 Superheated Steam 性質:`
+                  : undefined}
+                {steamState === 60
+                  ? `在 ${temp} °C, ${pres} MPa 下的 Subcool water 性質:`
                   : undefined}
                 <br />
                 {steamState === 10
@@ -250,7 +262,18 @@ export const Steam = () => {
                 {steamState === 20
                   ? `飽和溫度 t = ${res.t.toFixed(4)} °C`
                   : undefined}
-                <br />
+                {steamState === 30
+                  ? `飽和壓力 p = ${res.p.toFixed(4)} MPa`
+                  : undefined}
+                {steamState === 40
+                  ? `飽和溫度 t = ${res.t.toFixed(4)} °C`
+                  : undefined}
+                {steamState === 10 ||
+                steamState === 20 ||
+                steamState === 30 ||
+                steamState === 40 ? (
+                  <br />
+                ) : undefined}
                 密度 d = {res.d.toFixed(4)} kg/m³
                 <br />
                 比容 v = {res.v.toFixed(6)} m³/kg
