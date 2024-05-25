@@ -225,13 +225,17 @@ export const Steam = () => {
             </Box>
           </CardContent>
           <CardActions sx={{ ml: 1, mt: 4, mb: 1 }}>
-            <Button size="medium" onClick={rust_satTemp}>
-              Calculate
-            </Button>
-            {calState && (
+            {steamState != 0 && (
+              <Button size="medium" onClick={rust_satTemp}>
+                Calculate
+              </Button>
+            )}
+
+            {steamState != 0 && (
               <Button
                 style={{ marginLeft: "auto", marginRight: "20px" }}
                 size="medium"
+                disabled={calState ? false : true}
                 onClick={() => {
                   localStorage.setItem("density", res.d.toString());
                   localStorage.setItem(
