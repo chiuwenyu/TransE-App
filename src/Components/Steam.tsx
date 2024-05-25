@@ -228,16 +228,21 @@ export const Steam = () => {
             <Button size="medium" onClick={rust_satTemp}>
               Calculate
             </Button>
-            <Button
-              style={{ marginLeft: "auto", marginRight: "20px" }}
-              size="medium"
-              onClick={() => {
-                localStorage.setItem("density", res.d.toString());
-                localStorage.setItem("viscosity", (res.dv * 1000.0).toString());
-              }}
-            >
-              Copy params
-            </Button>
+            {calState && (
+              <Button
+                style={{ marginLeft: "auto", marginRight: "20px" }}
+                size="medium"
+                onClick={() => {
+                  localStorage.setItem("density", res.d.toString());
+                  localStorage.setItem(
+                    "viscosity",
+                    (res.dv * 1000.0).toString()
+                  );
+                }}
+              >
+                Copy params
+              </Button>
+            )}
           </CardActions>
         </Card>
       </Grid>
