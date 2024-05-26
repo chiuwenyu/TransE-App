@@ -3,7 +3,14 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { Grid, TextField } from "@mui/material";
+import {
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -40,6 +47,7 @@ function a11yProps(index: number) {
 
 export const SinglePhase = () => {
   // Process Data
+  const [fluid, setFluid] = useState(10);
   const [massFlowRate, setMassFlowRate] = useState("");
   const [density, setDensity] = useState("");
   const [viscosity, setViscosity] = useState("");
@@ -108,9 +116,28 @@ export const SinglePhase = () => {
               display="flex"
               flexDirection="column"
               sx={{
-                "& .MuiTextField-root": { mt: 2, width: "35ch" },
+                "& .MuiTextField-root": { mt: 2, width: "30ch" },
               }}
             >
+              <FormControl sx={{ mt: 2 }}>
+                <InputLabel id="state-label">Fluid</InputLabel>
+                <Select
+                  labelId="state-label"
+                  id="state-select"
+                  value={fluid}
+                  label="Fluid"
+                  onChange={(e) => {
+                    setFluid(e.target.value as number);
+                  }}
+                  sx={{ width: "20ch" }}
+                >
+                  <MenuItem value={10}>Liquid</MenuItem>
+                  <MenuItem value={20}>Gas</MenuItem>
+                  <MenuItem value={30}>Steam</MenuItem>
+                  <MenuItem value={40}>Water</MenuItem>
+                </Select>
+              </FormControl>
+
               <TextField
                 id="outlined-basic"
                 label="Mass Flow Rate (Kg/hr)"
