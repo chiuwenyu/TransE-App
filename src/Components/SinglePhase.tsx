@@ -1,10 +1,9 @@
-import * as React from "react";
-import PropTypes from "prop-types";
+import { useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { Grid } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -40,10 +39,25 @@ function a11yProps(index: number) {
 }
 
 export const SinglePhase = () => {
-  const [value, setValue] = React.useState(0);
+  const [massFlowRate, setMassFlowRate] = useState("0");
+  const [error, setError] = useState(false);
+
+  const [value, setValue] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+
+  const handleMassFlowRateChange = (e: any) => {
+    const newValue = e.target.value;
+    setMassFlowRate(newValue);
+    // 驗證輸入值是否為正的浮點數
+    const isPositiveFloat = /^([0-9]*[.])?[0-9]+$/;
+    if (!isPositiveFloat.test(newValue)) {
+      setError(true);
+    } else {
+      setError(false);
+    }
   };
 
   return (
@@ -59,14 +73,28 @@ export const SinglePhase = () => {
       <Grid item xs={4} sx={{ ml: 4, mt: 1, pt: 10 }}>
         <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs value={value} onChange={handleChange} aria-label="basic tabs">
-              <Tab label="Process" {...a11yProps(0)} />
-              <Tab label="Project" {...a11yProps(1)} />
-              <Tab label="Option" {...a11yProps(2)} />
+            <Tabs
+              value={value}
+              textColor="secondary"
+              indicatorColor="secondary"
+              onChange={handleChange}
+              aria-label="basic tabs"
+            >
+              <Tab label="Process Data" {...a11yProps(0)} />
+              <Tab label="Project Info" {...a11yProps(1)} />
+              <Tab label="Line Tag" {...a11yProps(2)} />
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0}>
-            Item One
+            <TextField
+              id="outlined-basic"
+              label="Mass Flow Rate (Kg/hr)"
+              variant="outlined"
+              value={massFlowRate}
+              error={error}
+              helperText={error ? "Please input correct number" : ""}
+              onChange={handleMassFlowRateChange}
+            />
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
             Item Two
