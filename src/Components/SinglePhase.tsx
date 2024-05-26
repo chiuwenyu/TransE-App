@@ -51,6 +51,13 @@ export const SinglePhase = () => {
   const [projName, setProjectName] = useState("");
   const [projDesc, setProjectDesc] = useState("");
 
+  // Line Tag
+  const [lineNo, setLineNo] = useState("");
+  const [lineFrom, setLineFrom] = useState("");
+  const [lineTo, setLineTo] = useState("");
+  const [note, setNote] = useState("");
+
+  // Error handling
   const [error, setError] = useState(false);
   const [value, setValue] = useState(0);
 
@@ -217,7 +224,57 @@ export const SinglePhase = () => {
           </CustomTabPanel>
 
           <CustomTabPanel value={value} index={2}>
-            Line Tags Data
+            <Box
+              component="form"
+              display="flex"
+              flexDirection="column"
+              sx={{
+                "& .MuiTextField-root": { mt: 2, width: "45ch" },
+              }}
+            >
+              <TextField
+                id="outlined-basic"
+                label="Line No."
+                variant="outlined"
+                value={lineNo}
+                color="secondary"
+                onChange={(e) => {
+                  setLineNo(e.target.value);
+                }}
+              />
+              <TextField
+                id="outlined-basic"
+                label="Line From"
+                variant="outlined"
+                value={lineFrom}
+                color="secondary"
+                onChange={(e) => {
+                  setLineFrom(e.target.value);
+                }}
+              />
+              <TextField
+                id="outlined-basic"
+                label="Line To"
+                variant="outlined"
+                value={lineTo}
+                color="secondary"
+                onChange={(e) => {
+                  setLineTo(e.target.value);
+                }}
+              />
+              <TextField
+                id="outlined-basic"
+                label="Note"
+                variant="outlined"
+                value={note}
+                color="secondary"
+                multiline
+                rows={5}
+                onChange={(e) => {
+                  setNote(e.target.value);
+                }}
+              />
+            </Box>
           </CustomTabPanel>
           <CustomTabPanel value={value} index={3}>
             Pipe Schedule Data
