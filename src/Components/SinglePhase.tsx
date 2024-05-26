@@ -39,21 +39,24 @@ function a11yProps(index: number) {
 }
 
 export const SinglePhase = () => {
-  const [massFlowRate, setMassFlowRate] = useState("0");
-  const [error, setError] = useState(false);
+  const [massFlowRate, setMassFlowRate] = useState("");
+  const [density, setDensity] = useState("");
+  const [viscosity, setViscosity] = useState("");
+  const [roughness, setRoughness] = useState("");
+  const [safeFactor, setSafeFactor] = useState("");
 
+  const [error, setError] = useState(false);
   const [value, setValue] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+    console.log(event);
   };
 
-  const handleMassFlowRateChange = (e: any) => {
-    const newValue = e.target.value;
-    setMassFlowRate(newValue);
+  const validateInput = (value: any) => {
     // 驗證輸入值是否為正的浮點數
     const isPositiveFloat = /^([0-9]*[.])?[0-9]+$/;
-    if (!isPositiveFloat.test(newValue)) {
+    if (!isPositiveFloat.test(value)) {
       setError(true);
     } else {
       setError(false);
@@ -71,7 +74,7 @@ export const SinglePhase = () => {
       }}
     >
       <Grid item xs={4} sx={{ ml: 4, mt: 1, pt: 10 }}>
-        <Box sx={{ width: "100%" }}>
+        <Box sx={{ width: "80%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
               value={value}
@@ -86,15 +89,80 @@ export const SinglePhase = () => {
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0}>
-            <TextField
-              id="outlined-basic"
-              label="Mass Flow Rate (Kg/hr)"
-              variant="outlined"
-              value={massFlowRate}
-              error={error}
-              helperText={error ? "Please input correct number" : ""}
-              onChange={handleMassFlowRateChange}
-            />
+            <Box
+              component="form"
+              display="flex"
+              flexDirection="column"
+              sx={{
+                "& .MuiTextField-root": { mt: 2, width: "35ch" },
+              }}
+            >
+              <TextField
+                id="outlined-basic"
+                label="Mass Flow Rate (Kg/hr)"
+                variant="outlined"
+                value={massFlowRate}
+                color="secondary"
+                error={error}
+                helperText={error ? "Please input correct number" : ""}
+                onChange={(e) => {
+                  setMassFlowRate(e.target.value);
+                  validateInput(e.target.value);
+                }}
+              />
+              <TextField
+                id="outlined-basic"
+                label="Density (Kg/m^3)"
+                variant="outlined"
+                value={density}
+                color="secondary"
+                error={error}
+                helperText={error ? "Please input correct number" : ""}
+                onChange={(e) => {
+                  setDensity(e.target.value);
+                  validateInput(e.target.value);
+                }}
+              />
+              <TextField
+                id="outlined-basic"
+                label="Viscosity (cP)"
+                variant="outlined"
+                value={viscosity}
+                color="secondary"
+                error={error}
+                helperText={error ? "Please input correct number" : ""}
+                onChange={(e) => {
+                  setViscosity(e.target.value);
+                  validateInput(e.target.value);
+                }}
+              />
+              <TextField
+                id="outlined-basic"
+                label="Pipe Roughness (mm)"
+                variant="outlined"
+                value={roughness}
+                color="secondary"
+                error={error}
+                helperText={error ? "Please input correct number" : ""}
+                onChange={(e) => {
+                  setRoughness(e.target.value);
+                  validateInput(e.target.value);
+                }}
+              />
+              <TextField
+                id="outlined-basic"
+                label="Safe Factor (-)"
+                variant="outlined"
+                value={safeFactor}
+                color="secondary"
+                error={error}
+                helperText={error ? "Please input correct number" : ""}
+                onChange={(e) => {
+                  setSafeFactor(e.target.value);
+                  validateInput(e.target.value);
+                }}
+              />
+            </Box>
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
             Item Two
