@@ -39,11 +39,17 @@ function a11yProps(index: number) {
 }
 
 export const SinglePhase = () => {
+  // Process Data
   const [massFlowRate, setMassFlowRate] = useState("");
   const [density, setDensity] = useState("");
   const [viscosity, setViscosity] = useState("");
   const [roughness, setRoughness] = useState("");
-  const [safeFactor, setSafeFactor] = useState("");
+  const [safeFactor, setSafeFactor] = useState("1.2");
+
+  // Project Info
+  const [projNo, setProjectNo] = useState("");
+  const [projName, setProjectName] = useState("");
+  const [projDesc, setProjectDesc] = useState("");
 
   const [error, setError] = useState(false);
   const [value, setValue] = useState(0);
@@ -74,7 +80,7 @@ export const SinglePhase = () => {
       }}
     >
       <Grid item xs={4} sx={{ ml: 4, mt: 1, pt: 10 }}>
-        <Box sx={{ width: "80%" }}>
+        <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
               value={value}
@@ -86,6 +92,7 @@ export const SinglePhase = () => {
               <Tab label="Process Data" {...a11yProps(0)} />
               <Tab label="Project Info" {...a11yProps(1)} />
               <Tab label="Line Tag" {...a11yProps(2)} />
+              <Tab label="Pipe Sch." {...a11yProps(3)} />
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0}>
@@ -153,6 +160,7 @@ export const SinglePhase = () => {
                 id="outlined-basic"
                 label="Safe Factor (-)"
                 variant="outlined"
+                defaultValue={1.2}
                 value={safeFactor}
                 color="secondary"
                 error={error}
@@ -165,10 +173,54 @@ export const SinglePhase = () => {
             </Box>
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            Item Two
+            <Box
+              component="form"
+              display="flex"
+              flexDirection="column"
+              sx={{
+                "& .MuiTextField-root": { mt: 2, width: "45ch" },
+              }}
+            >
+              <TextField
+                id="outlined-basic"
+                label="Project No."
+                variant="outlined"
+                value={projNo}
+                color="secondary"
+                onChange={(e) => {
+                  setProjectNo(e.target.value);
+                }}
+              />
+              <TextField
+                id="outlined-basic"
+                label="Project Name"
+                variant="outlined"
+                value={projName}
+                color="secondary"
+                onChange={(e) => {
+                  setProjectName(e.target.value);
+                }}
+              />
+              <TextField
+                id="outlined-basic"
+                label="Project Description"
+                variant="outlined"
+                value={projDesc}
+                color="secondary"
+                multiline
+                rows={5}
+                onChange={(e) => {
+                  setProjectDesc(e.target.value);
+                }}
+              />
+            </Box>
           </CustomTabPanel>
+
           <CustomTabPanel value={value} index={2}>
-            Item Three
+            Line Tags Data
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={3}>
+            Pipe Schedule Data
           </CustomTabPanel>
         </Box>
       </Grid>
