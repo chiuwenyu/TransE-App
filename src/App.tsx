@@ -13,7 +13,7 @@ function App() {
       <Grid>
         <Grid item>
           <Routes>
-            <Route path="/" element={<Steam />} />
+            <Route path="/" element={<SinglePhase />} />
             <Route path="/steam" element={<Steam />} />
             <Route path="/singlephase" element={<SinglePhase />} />
           </Routes>
