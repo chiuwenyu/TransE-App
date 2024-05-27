@@ -53,7 +53,7 @@ let res: Result = {
 };
 
 const Conv = (value: number, deci: number) => {
-  if (value <= -998.9) {
+  if (value < 0.0) {
     return "(N/A)";
   } else {
     return value.toFixed(deci);
