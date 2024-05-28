@@ -1,5 +1,4 @@
 import data from "../assets/PipeWork.json";
-import * as React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { Margin } from "@mui/icons-material";
 
 function createData(SIZE: string, SCHEDULE: string, ID: number) {
   return { SIZE, SCHEDULE, ID };
@@ -32,10 +32,10 @@ export default function PipeManager() {
             <TableCell align="left" sx={{ width: "20%" }}>
               SIZE
             </TableCell>
-            <TableCell align="right" sx={{ width: "40%" }}>
+            <TableCell align="center" sx={{ width: "40%" }}>
               SCHEDULE
             </TableCell>
-            <TableCell align="right" sx={{ width: "40%" }}>
+            <TableCell align="center" sx={{ width: "40%" }}>
               ID&nbsp;(in)
             </TableCell>
           </TableRow>
@@ -51,8 +51,8 @@ export default function PipeManager() {
               <TableCell component="th" scope="row">
                 {row.SIZE}
               </TableCell>
-              <TableCell align="right">{row.SCHEDULE}</TableCell>
-              <TableCell align="right">{row.ID}</TableCell>
+              <TableCell align="center">{row.SCHEDULE}</TableCell>
+              <TableCell align="center">{row.ID}</TableCell>
             </TableRow>
           ))}
         </TableBody>
