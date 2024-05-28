@@ -11,6 +11,7 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import PipeManager from "./PipeManager";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -304,7 +305,7 @@ export const SinglePhase = () => {
             </Box>
           </CustomTabPanel>
           <CustomTabPanel value={value} index={3}>
-            Pipe Schedule Data
+            <PipeManager />
           </CustomTabPanel>
         </Box>
       </Grid>
