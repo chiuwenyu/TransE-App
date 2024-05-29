@@ -1,3 +1,5 @@
+import { invoke } from "@tauri-apps/api/tauri";
+
 import { useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -19,6 +21,35 @@ interface TabPanelProps {
   index: number;
   value: number;
 }
+
+type Result = {
+  w: number; // fluid flow rate [kg/hr]
+  rho: number; // fluid density [kg/m^3]
+  mu: number; // fluid viscosity [N-sec/m^2] = [Kg/m3/sec]
+  id: number; // pipe inside diameter [m]
+  e: number; // pipe roughness [m]
+  sf: number; // safety factor [-]
+  // output fields
+  v: number; // fluid flow velocity [m/s]
+  nre: number; // Reynold number [-]
+  fdarcy: number; // Darcy Friction Factor [-]
+  dp100: number; // pressure drop per 100m
+  vh: number; // velocity head vh = rho * v^2
+};
+
+let res: Result = {
+  w: 0.0,
+  rho: 0.0,
+  mu: 0.0,
+  id: 0.0,
+  e: 0.046,
+  sf: 1.2,
+  v: -999.0,
+  nre: -999.0,
+  fdarcy: -999.0,
+  dp100: -999.0,
+  vh: -999.0,
+};
 
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -54,7 +85,7 @@ export const SinglePhase = () => {
   const [density, setDensity] = useState("380");
   const [viscosity, setViscosity] = useState("0.054");
   const [roughness, setRoughness] = useState("0.046");
-  const [safeFactor, setSafeFactor] = useState("1.2");
+  const [safeFactor, setSafeFactor] = useState("1.0");
 
   // Project Info
   const [projNo, setProjectNo] = useState("");
@@ -85,6 +116,25 @@ export const SinglePhase = () => {
       setError(false);
     }
   };
+
+  // call Rust function
+  async function rust_single_phase_hydraulic() {
+    await invoke<Result>("invoke_hydraulic", {
+      w: parseFloat(massFlowRate),
+      rho: parseFloat(density),
+      mu: parseFloat(viscosity),
+      id: 13.25,
+      e: parseFloat(roughness),
+      sf: parseFloat(safeFactor),
+    })
+      .then((result) => {
+        res = result as Result;
+        console.log(res);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }
 
   return (
     <>
@@ -309,7 +359,10 @@ export const SinglePhase = () => {
               <PipeManager />
             </CustomTabPanel>
           </Box>
-          <Button variant="outlined"> Calculate </Button>
+          <Button variant="outlined" onClick={rust_single_phase_hydraulic}>
+            {" "}
+            Calculate{" "}
+          </Button>
         </Grid>
       </Grid>
     </>
