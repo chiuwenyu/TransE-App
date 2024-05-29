@@ -284,6 +284,8 @@ export const SinglePhase = () => {
                   variant="outlined"
                   value={projName}
                   color="secondary"
+                  multiline
+                  rows={3}
                   onChange={(e) => {
                     setProjectName(e.target.value);
                   }}
@@ -295,7 +297,7 @@ export const SinglePhase = () => {
                   value={projDesc}
                   color="secondary"
                   multiline
-                  rows={5}
+                  rows={7}
                   onChange={(e) => {
                     setProjectDesc(e.target.value);
                   }}
@@ -348,7 +350,7 @@ export const SinglePhase = () => {
                   value={note}
                   color="secondary"
                   multiline
-                  rows={5}
+                  rows={6}
                   onChange={(e) => {
                     setNote(e.target.value);
                   }}
