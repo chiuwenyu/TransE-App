@@ -6,7 +6,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Margin } from "@mui/icons-material";
 
 function createData(SIZE: string, SCHEDULE: string, ID: number) {
   return { SIZE, SCHEDULE, ID };

@@ -75,7 +75,7 @@ export const Steam = () => {
     })
       .then((result) => {
         res = result as Result;
-        console.log(res.d);
+        // console.log(res.d);
         // console.log(res.h);
         setCalState(true);
       })
