@@ -1,87 +1,85 @@
 extern crate seuif97;
 
-pub mod steam_props_cal {
-    use serde::ser::{Serialize, SerializeStruct, Serializer};
-    use seuif97::*;
-    pub struct SteamProps {
-        pub p: f64,   // 0. Pressure, MPa
-        pub t: f64,   // 1. Temperature, ℃
-        pub d: f64,   // 2. Density, kg/m³
-        pub v: f64,   // 3. Specific Volume, m³/kg
-        pub h: f64,   // 4. Specific enthalpy, kJ/kg
-        pub s: f64,   // 5. Specific entropy, kJ/(kg·K)
-        pub u: f64,   // 7. Specific internal energy, kJ/kg
-        pub x: f64,   // 15. steam quality, 0 <= x <= 1
-        pub dv: f64,  // 24. Dynamic viscosity, Pa·s
-        pub kv: f64,  // 25. Kinematic viscosity, m2/s
-        pub k: f64,   // 26. Thermal conductivity, W/(m·K)
-        pub td: f64,  // 27. Thermal diffusivity, m2/s
-        pub st: f64,  // 29. Surface tension, N/m
-        pub lat: f64, // cal. property, Latent Heat
-    }
+use serde::ser::{Serialize, SerializeStruct, Serializer};
+use seuif97::*;
+pub struct SteamProps {
+    pub p: f64,   // 0. Pressure, MPa
+    pub t: f64,   // 1. Temperature, ℃
+    pub d: f64,   // 2. Density, kg/m³
+    pub v: f64,   // 3. Specific Volume, m³/kg
+    pub h: f64,   // 4. Specific enthalpy, kJ/kg
+    pub s: f64,   // 5. Specific entropy, kJ/(kg·K)
+    pub u: f64,   // 7. Specific internal energy, kJ/kg
+    pub x: f64,   // 15. steam quality, 0 <= x <= 1
+    pub dv: f64,  // 24. Dynamic viscosity, Pa·s
+    pub kv: f64,  // 25. Kinematic viscosity, m2/s
+    pub k: f64,   // 26. Thermal conductivity, W/(m·K)
+    pub td: f64,  // 27. Thermal diffusivity, m2/s
+    pub st: f64,  // 29. Surface tension, N/m
+    pub lat: f64, // cal. property, Latent Heat
+}
 
-    impl Serialize for SteamProps {
-        fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        where
-            S: Serializer,
-        {
-            let mut state = serializer.serialize_struct("SteamProps", 14)?;
-            state.serialize_field("p", &self.p)?;
-            state.serialize_field("t", &self.t)?;
-            state.serialize_field("d", &self.d)?;
-            state.serialize_field("v", &self.v)?;
-            state.serialize_field("h", &self.h)?;
-            state.serialize_field("s", &self.s)?;
-            state.serialize_field("u", &self.u)?;
-            state.serialize_field("x", &self.x)?;
-            state.serialize_field("dv", &self.dv)?;
-            state.serialize_field("kv", &self.kv)?;
-            state.serialize_field("k", &self.k)?;
-            state.serialize_field("td", &self.td)?;
-            state.serialize_field("st", &self.st)?;
-            state.serialize_field("lat", &self.lat)?;
-            state.end()
+impl Serialize for SteamProps {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut state = serializer.serialize_struct("SteamProps", 14)?;
+        state.serialize_field("p", &self.p)?;
+        state.serialize_field("t", &self.t)?;
+        state.serialize_field("d", &self.d)?;
+        state.serialize_field("v", &self.v)?;
+        state.serialize_field("h", &self.h)?;
+        state.serialize_field("s", &self.s)?;
+        state.serialize_field("u", &self.u)?;
+        state.serialize_field("x", &self.x)?;
+        state.serialize_field("dv", &self.dv)?;
+        state.serialize_field("kv", &self.kv)?;
+        state.serialize_field("k", &self.k)?;
+        state.serialize_field("td", &self.td)?;
+        state.serialize_field("st", &self.st)?;
+        state.serialize_field("lat", &self.lat)?;
+        state.end()
+    }
+}
+
+impl SteamProps {
+    pub fn new() -> SteamProps {
+        SteamProps {
+            p: -999.0,
+            t: -999.0,
+            d: -999.0,
+            v: -999.0,
+            h: -999.0,
+            s: -999.0,
+            u: -999.0,
+            x: -999.0,
+            dv: -999.0,
+            kv: -999.0,
+            k: -999.0,
+            td: -999.0,
+            st: -999.0,
+            lat: -999.0,
         }
     }
 
-    impl SteamProps {
-        pub fn new() -> SteamProps {
-            SteamProps {
-                p: -999.0,
-                t: -999.0,
-                d: -999.0,
-                v: -999.0,
-                h: -999.0,
-                s: -999.0,
-                u: -999.0,
-                x: -999.0,
-                dv: -999.0,
-                kv: -999.0,
-                k: -999.0,
-                td: -999.0,
-                st: -999.0,
-                lat: -999.0,
-            }
-        }
-    }
-
-    pub fn call_seuif(p: f64, t: f64, mode: u32) -> SteamProps {
+    pub fn call_seuif(&mut self, p: f64, t: f64, mode: u32) -> SteamProps {
         // p: f64  // 壓力, 單位 MPa
         // t: f64  // 溫度, 單位攝氏度
         // mode: u32  // (10, 20, 30, 40, 50, 60)
 
         match mode {
-            10 => sat_steam_by_temp(t),
-            20 => sat_steam_by_pres(p),
-            30 => sat_water_by_temp(t),
-            40 => sat_water_by_pres(p),
-            50 => superheat_steam(p, t),
-            60 => subcool_water(p, t),
+            10 => self.sat_steam_by_temp(t),
+            20 => self.sat_steam_by_pres(p),
+            30 => self.sat_water_by_temp(t),
+            40 => self.sat_water_by_pres(p),
+            50 => self.superheat_steam(p, t),
+            60 => self.subcool_water(p, t),
             _ => SteamProps::new(),
         }
     }
 
-    fn sat_steam_by_temp(t: f64) -> SteamProps {
+    fn sat_steam_by_temp(&mut self, t: f64) -> SteamProps {
         let mut sp = SteamProps::new();
         sp.p = tx(t, 1.0, 0); // 計算在給定溫度下的飽和壓力
         sp.d = tx(t, 1.0, 2); // 計算在給定溫度下的密度
@@ -100,7 +98,7 @@ pub mod steam_props_cal {
         sp
     }
 
-    fn sat_steam_by_pres(p: f64) -> SteamProps {
+    fn sat_steam_by_pres(&mut self, p: f64) -> SteamProps {
         let mut sp = SteamProps::new();
         sp.t = px(p, 1.0, 1); // 計算在給定壓力下的飽和溫度
         sp.d = px(p, 1.0, 2); // 計算在給定壓力下的密度
@@ -119,7 +117,7 @@ pub mod steam_props_cal {
         sp
     }
 
-    fn sat_water_by_temp(t: f64) -> SteamProps {
+    fn sat_water_by_temp(&mut self, t: f64) -> SteamProps {
         let mut sp = SteamProps::new();
 
         sp.d = tx(t, 0.0, 2); // 計算在給定溫度下的密度
@@ -137,7 +135,7 @@ pub mod steam_props_cal {
         sp
     }
 
-    fn sat_water_by_pres(p: f64) -> SteamProps {
+    fn sat_water_by_pres(&mut self, p: f64) -> SteamProps {
         let mut sp = SteamProps::new();
 
         sp.d = px(p, 0.0, 2); // 計算在給定壓力下的密度
@@ -155,7 +153,7 @@ pub mod steam_props_cal {
         sp
     }
 
-    fn superheat_steam(p: f64, t: f64) -> SteamProps {
+    fn superheat_steam(&mut self, p: f64, t: f64) -> SteamProps {
         let mut sp = SteamProps::new();
 
         sp.d = pt(p, t, 2); // 計算在給定壓力和溫度下的密度
@@ -173,7 +171,7 @@ pub mod steam_props_cal {
         sp
     }
 
-    fn subcool_water(p: f64, t: f64) -> SteamProps {
+    fn subcool_water(&mut self, p: f64, t: f64) -> SteamProps {
         let mut sp = SteamProps::new();
 
         sp.d = pt(p, t, 2); // 計算在給定壓力和溫度下的密度

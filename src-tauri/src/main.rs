@@ -1,18 +1,16 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-pub mod single_phase;
-use crate::single_phase::single_phase_line;
-use single_phase_line::SingleFx;
+mod single_phase;
+use crate::single_phase::SingleFx;
 
-pub mod use_seuif97;
-use crate::steam_props_cal::SteamProps;
-use crate::use_seuif97::steam_props_cal;
-use steam_props_cal::call_seuif;
+mod use_seuif97;
+use crate::use_seuif97::SteamProps;
 
 #[tauri::command]
 fn invoke_seuif(pressure: f64, temperature: f64, mode: u32) -> SteamProps {
-    call_seuif(pressure, temperature, mode)
+    let mut steam = SteamProps::new();
+    steam.call_seuif(pressure, temperature, mode)
 }
 
 #[tauri::command]
