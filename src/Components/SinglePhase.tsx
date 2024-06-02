@@ -15,6 +15,7 @@ import {
   TextField,
 } from "@mui/material";
 import PipeManager from "./PipeManager";
+import DataGridSingle from "./DataGridSingle";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -365,6 +366,9 @@ export const SinglePhase = () => {
             {" "}
             Calculate{" "}
           </Button>
+        </Grid>
+        <Grid item xs={4} sx={{ ml: 1, mt: 1, pt: 10, width: "200%" }}>
+          <DataGridSingle />
         </Grid>
       </Grid>
     </>
