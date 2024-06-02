@@ -149,7 +149,7 @@ export const SinglePhase = () => {
         }}
       >
         <Grid item xs={4} sx={{ ml: 4, mt: 1, pt: 10 }}>
-          <Box sx={{ width: "100%", height: "75%" }}>
+          <Box sx={{ width: "100%", height: "550px" }}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <Tabs
                 value={value}

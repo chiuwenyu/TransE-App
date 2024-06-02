@@ -119,7 +119,7 @@ const rows = [
 
 export default function DataGridSingle() {
   return (
-    <Box sx={{ height: 600, width: "175%" }}>
+    <Box sx={{ height: "550px", width: "875px" }}>
       <Typography gutterBottom variant="body1" component="div">
         Single Phase Line Sizing
       </Typography>
