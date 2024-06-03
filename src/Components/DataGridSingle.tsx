@@ -1,7 +1,8 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Typography } from "@mui/material";
+import { Button, createTheme, Stack, Typography } from "@mui/material";
+import BlurLinearOutlinedIcon from "@mui/icons-material/BlurLinearOutlined";
+import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 
 const columns: GridColDef<(typeof rows)[number]>[] = [
   { field: "id", headerName: "Norm. ID\n(in)", width: 110, resizable: false },
@@ -117,12 +118,44 @@ const rows = [
   },
 ];
 
+const theme = createTheme({
+  palette: {
+    success: {
+      main: "teal", // 自訂的成功顏色
+    },
+  },
+});
+
 export default function DataGridSingle() {
   return (
     <Box sx={{ width: "875px" }}>
-      <Typography gutterBottom variant="body1" component="div">
-        Single Phase Line Sizing
-      </Typography>
+      <Stack display={"flex"} justifyContent={"flex-end"}>
+        <span>
+          <Typography gutterBottom variant="h6" component="span">
+            Single Phase Line Sizing
+          </Typography>
+          <Box sx={{ float: "right" }}>
+            <Button
+              variant="contained"
+              startIcon={<BlurLinearOutlinedIcon />}
+              size="small"
+              color="success"
+            >
+              Filter
+            </Button>
+            <Button
+              variant="contained"
+              startIcon={<RotateLeftIcon />}
+              size="small"
+              color="success"
+              sx={{ ml: 2 }}
+            >
+              {" "}
+              Reset
+            </Button>
+          </Box>
+        </span>
+      </Stack>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -140,7 +173,7 @@ export default function DataGridSingle() {
             },
           },
         }}
-        pageSizeOptions={[5, 6, 7, 8]}
+        pageSizeOptions={[5, 6, 7, 8, 9, 10]}
         checkboxSelection
         disableRowSelectionOnClick
       />
