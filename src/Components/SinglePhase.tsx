@@ -5,6 +5,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
 import {
   Button,
   FormControl,
@@ -365,10 +366,12 @@ export const SinglePhase = () => {
           <Button
             variant="contained"
             color="success"
+            size="small"
+            startIcon={<CalculateOutlinedIcon />}
             onClick={rust_single_phase_hydraulic}
           >
             {" "}
-            Calculate{" "}
+            Execute{" "}
           </Button>
         </Grid>
         <Grid item xs={4} sx={{ ml: 1, mt: 1, pt: 10, width: "200%" }}>
