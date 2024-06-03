@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Button, createTheme, Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import BlurLinearOutlinedIcon from "@mui/icons-material/BlurLinearOutlined";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 
@@ -117,14 +117,6 @@ const rows = [
     reynoldNo: 900000,
   },
 ];
-
-const theme = createTheme({
-  palette: {
-    success: {
-      main: "teal", // 自訂的成功顏色
-    },
-  },
-});
 
 export default function DataGridSingle() {
   return (
