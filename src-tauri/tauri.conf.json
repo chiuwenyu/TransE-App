@@ -6,7 +6,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "app-bar",
+    "productName": "Transe-App",
     "version": "0.0.0"
   },
   "tauri": {
@@ -32,7 +32,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "com.transenergy.dev",
       "icon": []
     }
   }

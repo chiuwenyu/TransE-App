@@ -1,4 +1,4 @@
-import { Box, Grid, Paper } from "@mui/material";
+import { Box } from "@mui/material";
 import splashImg from "../assets/splash-01.jpg";
 
 export const Home = () => {
