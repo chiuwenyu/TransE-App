@@ -362,7 +362,11 @@ export const SinglePhase = () => {
               <PipeManager />
             </CustomTabPanel>
           </Box>
-          <Button variant="outlined" onClick={rust_single_phase_hydraulic}>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={rust_single_phase_hydraulic}
+          >
             {" "}
             Calculate{" "}
           </Button>
