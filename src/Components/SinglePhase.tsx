@@ -55,6 +55,29 @@ let res: Result = {
   vh: -999.0,
 };
 
+function fmt_f64(
+  num: number,
+  width: number,
+  precision: number,
+  exp_pad: number
+): string {
+  let numStr: string = num.toExponential(precision);
+  let eIndex: number = numStr.indexOf("e");
+
+  let exp: string = numStr.slice(eIndex + 1);
+  numStr = numStr.slice(0, eIndex);
+
+  let sign: string = exp.startsWith("-") ? "-" : "+";
+  if (sign === "-") {
+    exp = exp.slice(2);
+  } else {
+    exp = exp.slice(1);
+  }
+
+  numStr += "E" + sign + exp.padStart(exp_pad, "0");
+  return numStr.padStart(width);
+}
+
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
@@ -161,7 +184,7 @@ export const SinglePhase = () => {
         item.vel = res.v.toFixed(4);
         item.presDrop = res.dp100.toFixed(6);
         item.vh = res.vh.toFixed(4);
-        item.reynoldNo = res.nre.toExponential(4);
+        item.reynoldNo = fmt_f64(res.nre, 20, 4, 3);
       })
       .catch((e) => {
         console.error(e);
