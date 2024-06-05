@@ -108,6 +108,7 @@ export const SinglePhase = () => {
 
   // Calculated Result
   const [resData, setResData] = useState<SizingData[]>([]);
+  const [calState, setCalState] = useState(false);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -119,52 +120,52 @@ export const SinglePhase = () => {
     const isPositiveFloat = /^([0-9]*[.])?[0-9]+$/;
     if (!isPositiveFloat.test(value)) {
       setError(true);
+      setCalState(true);
     } else {
       setError(false);
+      setCalState(false);
     }
   };
 
-  const handleExecuteClick = () => {
+  const handleExecuteButtonClick = () => {
     const newResData: SizingData[] = workID.map((item) => {
       return {
         id: item.SIZE,
-        actID: item.ID,
-        vel: 0.0,
-        presDrop: 0.0,
-        vh: 0.0,
-        reynoldNo: 0.0,
+        actID: item.ID.toString(),
+        vel: "",
+        presDrop: "",
+        vh: "",
+        reynoldNo: "",
       };
     });
-    newResData.forEach((item) => {
-      let ret: Result = rust_single_phase_hydraulic(item.actID);
-      item.vel = ret.v;
-      item.presDrop = ret.dp100;
-      item.vh = ret.vh;
-      item.reynoldNo = ret.nre;
+    newResData.map((item) => {
+      rust_single_phase_hydraulic(item);
     });
 
     setResData(newResData);
-    console.log(newResData);
+    setCalState(true);
   };
 
   // call Rust function
-  function rust_single_phase_hydraulic(nid: number): Result {
+  function rust_single_phase_hydraulic(item: SizingData) {
     invoke<Result>("invoke_hydraulic", {
       w: parseFloat(massFlowRate),
       rho: parseFloat(density),
       mu: parseFloat(viscosity),
-      id: nid,
+      id: parseFloat(item.actID),
       e: parseFloat(roughness),
       sf: parseFloat(safeFactor),
     })
       .then((result) => {
         res = result as Result;
-        // console.log(res);
+        item.vel = res.v.toFixed(4);
+        item.presDrop = res.dp100.toFixed(6);
+        item.vh = res.vh.toFixed(4);
+        item.reynoldNo = res.nre.toExponential(4);
       })
       .catch((e) => {
         console.error(e);
       });
-    return res;
   }
 
   return (
@@ -397,14 +398,14 @@ export const SinglePhase = () => {
             color="success"
             size="small"
             startIcon={<CalculateOutlinedIcon />}
-            onClick={handleExecuteClick}
+            onClick={handleExecuteButtonClick}
           >
             {" "}
             Execute{" "}
           </Button>
         </Grid>
         <Grid item xs={4} sx={{ ml: 1, mt: 1, pt: 10, width: "200%" }}>
-          <DataGridSingle />
+          {calState && <DataGridSingle rows={resData} />}
         </Grid>
       </Grid>
     </>
