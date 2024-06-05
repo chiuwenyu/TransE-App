@@ -69,7 +69,7 @@ function fmt_f64(
 
   let sign: string = exp.startsWith("-") ? "-" : "+";
   if (sign === "-") {
-    exp = exp.slice(2);
+    exp = exp.slice(1);
   } else {
     exp = exp.slice(1);
   }
