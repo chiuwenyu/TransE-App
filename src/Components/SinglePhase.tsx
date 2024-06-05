@@ -170,8 +170,8 @@ export const SinglePhase = () => {
   };
 
   // call Rust function
-  function rust_single_phase_hydraulic(item: SizingData) {
-    invoke<Result>("invoke_hydraulic", {
+  async function rust_single_phase_hydraulic(item: SizingData) {
+    await invoke<Result>("invoke_hydraulic", {
       w: parseFloat(massFlowRate),
       rho: parseFloat(density),
       mu: parseFloat(viscosity),
