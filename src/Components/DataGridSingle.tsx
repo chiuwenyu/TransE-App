@@ -4,6 +4,15 @@ import { Button, Stack, Typography } from "@mui/material";
 import BlurLinearOutlinedIcon from "@mui/icons-material/BlurLinearOutlined";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 
+export interface SizingData {
+  id: string;
+  actID: number;
+  vel: number;
+  presDrop: number;
+  vh: number;
+  reynoldNo: number;
+}
+
 const columns: GridColDef<(typeof rows)[number]>[] = [
   { field: "id", headerName: "Norm. ID\n(in)", width: 110, resizable: false },
   {

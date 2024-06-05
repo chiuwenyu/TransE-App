@@ -17,6 +17,8 @@ import {
 } from "@mui/material";
 import PipeManager from "./PipeManager";
 import DataGridSingle from "./DataGridSingle";
+import { SizingData } from "./DataGridSingle";
+import workID from "../assets/PipeWork.json";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -104,6 +106,9 @@ export const SinglePhase = () => {
   const [error, setError] = useState(false);
   const [value, setValue] = useState(0);
 
+  // Calculated Result
+  const [resData, setResData] = useState<SizingData[]>([]);
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     console.log(event);
@@ -119,23 +124,47 @@ export const SinglePhase = () => {
     }
   };
 
+  const handleExecuteClick = () => {
+    const newResData: SizingData[] = workID.map((item) => {
+      return {
+        id: item.SIZE,
+        actID: item.ID,
+        vel: 0.0,
+        presDrop: 0.0,
+        vh: 0.0,
+        reynoldNo: 0.0,
+      };
+    });
+    newResData.forEach((item) => {
+      let ret: Result = rust_single_phase_hydraulic(item.actID);
+      item.vel = ret.v;
+      item.presDrop = ret.dp100;
+      item.vh = ret.vh;
+      item.reynoldNo = ret.nre;
+    });
+
+    setResData(newResData);
+    console.log(newResData);
+  };
+
   // call Rust function
-  async function rust_single_phase_hydraulic() {
-    await invoke<Result>("invoke_hydraulic", {
+  function rust_single_phase_hydraulic(nid: number): Result {
+    invoke<Result>("invoke_hydraulic", {
       w: parseFloat(massFlowRate),
       rho: parseFloat(density),
       mu: parseFloat(viscosity),
-      id: 13.25,
+      id: nid,
       e: parseFloat(roughness),
       sf: parseFloat(safeFactor),
     })
       .then((result) => {
         res = result as Result;
-        console.log(res);
+        // console.log(res);
       })
       .catch((e) => {
         console.error(e);
       });
+    return res;
   }
 
   return (
@@ -368,7 +397,7 @@ export const SinglePhase = () => {
             color="success"
             size="small"
             startIcon={<CalculateOutlinedIcon />}
-            onClick={rust_single_phase_hydraulic}
+            onClick={handleExecuteClick}
           >
             {" "}
             Execute{" "}
