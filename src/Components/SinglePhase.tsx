@@ -206,7 +206,7 @@ export const SinglePhase = () => {
                 aria-label="basic tabs"
               >
                 <Tab label="Process Data" {...a11yProps(0)} />
-                <Tab label="Project Info" {...a11yProps(1)} />
+                <Tab label="Option" {...a11yProps(1)} />
                 <Tab label="Line Tag" {...a11yProps(2)} />
                 <Tab label="Pipe Sch." {...a11yProps(3)} />
               </Tabs>
