@@ -3,7 +3,6 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
 import {
