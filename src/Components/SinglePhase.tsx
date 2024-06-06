@@ -420,7 +420,7 @@ export const SinglePhase = () => {
             Execute{" "}
           </Button>
         </Grid>
-        <Grid item xs={4} sx={{ ml: 1, mt: 1, pt: 10, width: "200%" }}>
+        <Grid item xs={4} sx={{ mt: 1, pt: 10, width: "200%" }}>
           {calState && <DataGridSingle rows={resData} />}
         </Grid>
       </Grid>
