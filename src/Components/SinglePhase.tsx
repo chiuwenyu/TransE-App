@@ -3,7 +3,6 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
 import {
@@ -421,7 +420,7 @@ export const SinglePhase = () => {
             Execute{" "}
           </Button>
         </Grid>
-        <Grid item xs={4} sx={{ ml: 1, mt: 1, pt: 10, width: "200%" }}>
+        <Grid item xs={4} sx={{ mt: 1, pt: 10, width: "200%" }}>
           {calState && <DataGridSingle rows={resData} />}
         </Grid>
       </Grid>

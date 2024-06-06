@@ -14,7 +14,12 @@ export interface SizingData {
 }
 
 const columns: GridColDef<SizingData>[] = [
-  { field: "id", headerName: "Norm. ID\n(in)", width: 110, resizable: false },
+  {
+    field: "id",
+    headerName: "Norm. ID\n(in)",
+    width: 110,
+    resizable: false,
+  },
   {
     field: "actID",
     headerName: "Act. ID (in)",
@@ -46,7 +51,7 @@ const columns: GridColDef<SizingData>[] = [
   {
     field: "reynoldNo",
     headerName: "Reynold No. [-]",
-    width: 140,
+    width: 130,
     resizable: false,
     editable: false,
   },
@@ -54,7 +59,7 @@ const columns: GridColDef<SizingData>[] = [
 
 export default function DataGridSingle({ rows }: { rows: SizingData[] }) {
   return (
-    <Box sx={{ width: "875px" }}>
+    <Box sx={{ width: "885px", height: "400px" }}>
       <Stack display={"flex"} justifyContent={"flex-end"}>
         <span>
           <Typography gutterBottom variant="h6" component="span">
